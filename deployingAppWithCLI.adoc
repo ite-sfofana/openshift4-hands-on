@@ -1,0 +1,107 @@
+= Deploying an app using the oc CLI
+
+```
+$ oc login -u developer -p developer
+                                                                                                                                                                   
+```
+
+== Now we need to create project
+
+....
+$ oc new-project bootcamp
+....
+
+we should be directly switched to our new created project
+
+....
+$ oc status
+....
+
+to check that. If that is not the case use `oc project bootcamp` to switch
+
+
+== Create an application from a Docker Image
+
+....
+$ oc new-app redhatworkshops/welcome-php --name=welcome                                                                                       
+                                                                                                                                      
+--> Success                                                                                                                                                        
+    Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:                                       
+     'oc expose svc/welcome'                                                                                                                                       
+    Run 'oc status' to view your app.
+....
+
+=== Check the status 
+....
+$ oc get pods
+
+NAME               READY     STATUS    RESTARTS   AGE
+welcome-1-deploy   1/1       Running   0          1m
+welcome-1-dkyyq    0/1       Pending   0          0s
+....
+
+In the above example `welcome-1-deploy` is the deployer pod and the other one is the actual application pod. In a little while the deployer
+pod will succeed and the application pod will change for `Pending` to `Running` status.
+
+....
+$ oc get pods                                                                                                                                 
+NAME               READY   STATUS      RESTARTS   AGE                                                                                                              
+welcome-1-c2pvs    1/1     Running     0          34s                                                                                                              
+welcome-1-deploy   0/1     Completed   0          46s 
+....
+
+=== Add a Route for your application
+
+OpenShift also spins up a service for this application. Run the following command to view the list of services in the project (you can also use `oc get svc` shorthand).
+
+....
+$ oc get services
+....
+
+You will notice the `welcome` service was created for this project.
+
+=== Now add a route to service
+
+The service is not reachable outside the cluster without a route.
+....
+$ oc expose service welcome --name=welcome                                                                                                    
+route.route.openshift.io/welcome exposed
+....
+
+=== Check the route created for your application now
+
+```
+$ oc get route                                                                                                                                
+```
+
+Note the URL listed under `HOST/PORT`.
+
+=== Try your application
+
+Access the application: Now access the application using curl (looking
+for 200 status code) or from the browser and see the result
+
+....
+
+$ curl -Is <route>
+....
+
+
+== Clean up
+
+Get all components 
+
+....
+$ oc get all                                                                                                                                  
+....
+
+Now you can delete all these components by running one command.
+
+....
+$ oc delete all --all                                                                                                                         
+....
+
+=== Now we can delete the project
+```
+oc delete project bootcamp
+```
