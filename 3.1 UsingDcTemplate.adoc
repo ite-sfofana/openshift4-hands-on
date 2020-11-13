@@ -1,0 +1,17 @@
+= Using deploymentConfig
+
+In this course we will use a deploymentConfig to create several resources/objects
+
+```
+$ oc login -u developer -p developer
+$ oc new-project bootcamp
+```
+== Download the yaml and params file
+....
+curl 
+....
+
+== Process the template by appling the params and create the dc
+....
+$ oc 
+....
