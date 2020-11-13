@@ -1,0 +1,166 @@
+apiVersion: v1
+kind: Template
+metadata:
+  name: template-${APP}
+labels:
+  template: template-${APP}
+objects:
+- apiVersion: v1
+  kind: PersistentVolumeClaim
+  metadata:
+    name: ${APP}-data
+  spec:
+    resources:
+      requests:
+        storage: ${{STORAGE_CAPACITY}}
+    accessModes:
+      - ReadWriteMany
+- apiVersion: v1
+  kind: DeploymentConfig
+  metadata:
+    labels:
+      app: ${{APP}}
+    name: ${{APP}}
+  spec:
+    replicas: ${{REPLICAS}}
+    selector:
+      app: ${{APP}}
+    template:
+      metadata:
+        labels:
+          app: ${{APP}}
+          deploymentconfig: ${APP}
+      spec:
+        containers:
+          - name: ${{APP}}
+            image: registry.access.redhat.com/ubi8/nodejs-12:1-45
+            imagePullPolicy: Always
+            ports:
+              - containerPort: ${{CONTAINER_PORT}}
+                protocol: TCP
+            volumeMounts:
+              - mountPath: "/temp"
+                name: "${APP}-data"
+            env:
+              - name: STAGE
+                value: ${{STAGE}}
+              - name: MEMORY_REQUEST
+                value: ${MEMORY_REQUEST}
+              - name: MEMORY_LIMIT
+                value: ${MEMORY_LIMIT}
+              - name: CPU_CORE_REQUEST
+                value: ${CPU_CORE_REQUEST}
+              - name: CPU_CORE_LIMIT
+                value: ${CPU_CORE_LIMIT}
+              - name: READINESS_INITIAL_DELAY_SECONDS
+                value: ${READINESS_INITIAL_DELAY_SECONDS}
+              - name: READINESS_TIMEOUT
+                value: ${READINESS_TIMEOUT}
+              - name: LIVENESS_INITIAL_DELAY_SECONDS
+                value: ${LIVENESS_INITIAL_DELAY_SECONDS}
+              - name: LIVENESS_TIMEOUT
+                value: ${LIVENESS_TIMEOUT}
+            resources:
+              limits:
+                cpu: ${{CPU_CORE_LIMIT}}
+                memory: ${{MEMORY_LIMIT}}
+              requests:
+                cpu: ${{CPU_CORE_REQUEST}}
+                memory: ${{MEMORY_REQUEST}}
+            readinessProbe:
+              tcpSocket:
+                port: ${{CONTAINER_PORT}}
+              initialDelaySeconds: ${{READINESS_INITIAL_DELAY_SECONDS}}
+              timeoutSeconds: ${{READINESS_TIMEOUT}}
+            livenessProbe:
+              tcpSocket:
+                port: ${{CONTAINER_PORT}}
+              initialDelaySeconds: ${{LIVENESS_INITIAL_DELAY_SECONDS}}
+              timeoutSeconds: ${{LIVENESS_TIMEOUT}}
+        volumes:
+          - name: "${APP}-data"
+            persistentVolumeClaim:
+              claimName: "${APP}-data"        
+- apiVersion: v1
+  kind: Service
+  metadata:
+    annotations:
+      team: ${{NAMESPACE}}
+    labels:
+      app: ${{APP}}
+    name: ${{APP}}
+  spec:
+    selector:
+      deploymentconfig: ${APP}
+    ports:
+    - protocol: TCP
+      port: ${{EXTERNAL_PORT}}
+      targetPort: ${{CONTAINER_PORT}}
+- apiVersion: v1
+  kind: Route
+  metadata:
+    labels:
+      app: ${{APP}}
+    name: ${{APP}}
+  spec:
+    to:
+      kind: Service
+      name: ${{APP}}
+    tls:
+      termination: edge
+- apiVersion: autoscaling/v1
+  kind: HorizontalPodAutoscaler
+  metadata:
+    name: ${APP}-autoscaler
+  spec:
+    minReplicas: ${{MIN_NUMBER_OF_PODS}}
+    maxReplicas: ${{MAX_NUMBER_OF_PODS}}
+    scaleTargetRef:
+      apiVersion: apps.openshift.io/v1
+      kind: DeploymentConfig
+      name: ${{APP}}
+    targetCPUUtilizationPercentage: ${{TARGET_CPU_UTILIZATION_PERCENTAGE}}
+parameters:
+- name: APP
+- name: REPLICAS
+  displayName: Replicas.
+  description: Replicas of the application to run.
+  required: true
+- name: MEMORY_LIMIT
+  displayName: Memory Limit
+  required: true
+- name: MEMORY_REQUEST
+  required: true
+- name: CPU_CORE_LIMIT
+  required: true
+- name: CPU_CORE_REQUEST
+  required: true
+- name: TARGET_CPU_UTILIZATION_PERCENTAGE
+  description: If the cpu usage reachs that value the scale gets started
+- name: MIN_NUMBER_OF_PODS
+  description: minimum of pods available
+- name: MAX_NUMBER_OF_PODS
+  description: Max number of pods at each time
+- name: CONTAINER_PORT
+  description: PORT exposed by the container
+- name: EXTERNAL_PORT
+  description: Host PORT mapped to the container port
+- name: STORAGE_CAPACITY
+  description: storage space e.g. 3Gi
+  required: true
+- name: LIVENESS_INITIAL_DELAY_SECONDS
+  description: livenessProbe check
+  required: true
+  value: "10"
+- name: LIVENESS_TIMEOUT
+  description: liveness timeout
+  required: true
+  value: "10"
+- name: READINESS_INITIAL_DELAY_SECONDS
+  description: readyness check
+  required: true
+  value: "5"
+- name: READINESS_TIMEOUT
+  description: readyness timeout
+  required: true
+  value: "5"
