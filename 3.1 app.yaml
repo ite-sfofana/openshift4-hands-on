@@ -33,7 +33,7 @@ objects:
       spec:
         containers:
           - name: ${{APP}}
-            image: registry.access.redhat.com/ubi8/nodejs-12:1-45
+            image: hpademo:latest
             imagePullPolicy: Always
             ports:
               - containerPort: ${{CONTAINER_PORT}}
