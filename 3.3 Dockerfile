@@ -1,0 +1,3 @@
+FROM openshift/php
+EXPOSE 8080
+COPY index.php /var/www/html
