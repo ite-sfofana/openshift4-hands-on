@@ -14,5 +14,5 @@ curl https://raw.githubusercontent.com/ite-sfofana/openshift4-hands-on/main/3.4%
 
 == Process the template by appling the params and create the dc
 ....
-$ oc 
+$ oc process -f app.yaml --param-file=params | oc create -f -
 ....
