@@ -8,7 +8,8 @@ $ oc new-project bootcamp
 ```
 == Download the yaml and params file
 ....
-curl 
+curl https://raw.githubusercontent.com/ite-sfofana/openshift4-hands-on/main/3.1%20app.yaml -o app.yaml
+curl https://raw.githubusercontent.com/ite-sfofana/openshift4-hands-on/main/3.4%20params -o params
 ....
 
 == Process the template by appling the params and create the dc
