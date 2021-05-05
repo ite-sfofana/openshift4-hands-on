@@ -1,0 +1,5 @@
+== In this exercise we will create a route to provide access to an existing service
+
+=== Step 1: Switch to administration view
+=== Step 2: --> Under Networking -->choose Route
+=== 
