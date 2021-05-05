@@ -1,0 +1,7 @@
+In this exercise we will learn how to build image from source code.
+
+The backend service that you will be deploying in this section is called nationalparks-katacoda
+
+=== Step 1: Switch to developer view and click "Add+"
+=== Step 2: Select from Catalog 
+=== Step 3: Put the https://github.com/openshift-roadshow/nationalparks-katacoda
