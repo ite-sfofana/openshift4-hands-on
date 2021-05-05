@@ -1,4 +1,4 @@
-= Now we will deploy an app using an exiting Container Image
+= Deploying an app using an exiting Container Image
 
 Login into the UI as developer/developer
 
