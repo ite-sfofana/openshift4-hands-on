@@ -1,0 +1,11 @@
+= Now we will deploy an app using an exiting Container Image
+
+Login into the UI as developer/developer
+
+=== Step 1: Switch to adminitration view
+=== Step 2: Create a new project
+=== Step 3: Switch back to developer view
+=== Step 4: Select 'Container Image'
+=== Step 5: Put the image name 'docker.io/openshiftroadshow/parksmap-katacoda:1.2.0'
+=== Step 6: Uncheck the 'create route' flag
+=== Step 7: Create
