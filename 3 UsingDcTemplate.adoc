@@ -4,7 +4,7 @@ In this course we will use a deploymentConfig to create several resources/object
 
 ```
 $ oc login -u developer -p developer
-$ oc new-project bootcamp
+$ oc new-project lab1
 ```
 == Download the yaml and params file
 ....
