@@ -1,0 +1,14 @@
+== Let's scale our application to 2 instances of pods.
+
+=== Step 1: From developer perspective choose under `topology` the desired application to scale up/down
+=== Step 2: Now click inside the circle of app
+=== Step 3: On the side-bar select `Details` tab
+=== Step 4: Now on the Details view, we can scale up and down the app
+
+== Self-Healing 
+=== Step 6: After scaling up to 2 or more pods, now open the `resource tab`
+=== Step 7: Select a pod and in the top right corner select from the drop down menu `Actions` the delete one
+=== Step 8: And see what happens --> a new pod is immediatly created.
+
+== Question
+=== Why ?
