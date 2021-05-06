@@ -33,7 +33,7 @@ objects:
       spec:
         containers:
           - name: ${{APP}}
-            image: hpademo:latest
+            image: docker.io/openshiftroadshow/parksmap-katacoda:1.2.0
             imagePullPolicy: Always
             ports:
               - containerPort: ${{CONTAINER_PORT}}
