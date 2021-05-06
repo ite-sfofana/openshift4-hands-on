@@ -3,8 +3,8 @@
 In this course we will use a deploymentConfig to create several resources/objects
 
 ```
-$ oc login -u developer -p developer
-$ oc new-project lab1
+oc login -u developer -p developer
+oc new-project lab1
 ```
 == Download the yaml and params file
 ....
@@ -14,5 +14,5 @@ curl https://raw.githubusercontent.com/ite-sfofana/openshift4-hands-on/main/3.4%
 
 == Process the template by appling the params and create the dc
 ....
-$ oc process -f app.yaml --param-file=params | oc create -f -
+oc process -f app.yaml --param-file=params | oc create -f -
 ....
