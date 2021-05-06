@@ -67,16 +67,6 @@ objects:
               requests:
                 cpu: ${{CPU_CORE_REQUEST}}
                 memory: ${{MEMORY_REQUEST}}
-            readinessProbe:
-              tcpSocket:
-                port: ${{CONTAINER_PORT}}
-              initialDelaySeconds: ${{READINESS_INITIAL_DELAY_SECONDS}}
-              timeoutSeconds: ${{READINESS_TIMEOUT}}
-            livenessProbe:
-              tcpSocket:
-                port: ${{CONTAINER_PORT}}
-              initialDelaySeconds: ${{LIVENESS_INITIAL_DELAY_SECONDS}}
-              timeoutSeconds: ${{LIVENESS_TIMEOUT}}
         volumes:
           - name: "${APP}-data"
             persistentVolumeClaim:
