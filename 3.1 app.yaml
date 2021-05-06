@@ -42,8 +42,6 @@ objects:
               - mountPath: "/temp"
                 name: "${APP}-data"
             env:
-              - name: STAGE
-                value: ${{STAGE}}
               - name: MEMORY_REQUEST
                 value: ${MEMORY_REQUEST}
               - name: MEMORY_LIMIT
@@ -52,14 +50,6 @@ objects:
                 value: ${CPU_CORE_REQUEST}
               - name: CPU_CORE_LIMIT
                 value: ${CPU_CORE_LIMIT}
-              - name: READINESS_INITIAL_DELAY_SECONDS
-                value: ${READINESS_INITIAL_DELAY_SECONDS}
-              - name: READINESS_TIMEOUT
-                value: ${READINESS_TIMEOUT}
-              - name: LIVENESS_INITIAL_DELAY_SECONDS
-                value: ${LIVENESS_INITIAL_DELAY_SECONDS}
-              - name: LIVENESS_TIMEOUT
-                value: ${LIVENESS_TIMEOUT}
             resources:
               limits:
                 cpu: ${{CPU_CORE_LIMIT}}
@@ -138,19 +128,3 @@ parameters:
 - name: STORAGE_CAPACITY
   description: storage space e.g. 3Gi
   required: true
-- name: LIVENESS_INITIAL_DELAY_SECONDS
-  description: livenessProbe check
-  required: true
-  value: "10"
-- name: LIVENESS_TIMEOUT
-  description: liveness timeout
-  required: true
-  value: "10"
-- name: READINESS_INITIAL_DELAY_SECONDS
-  description: readyness check
-  required: true
-  value: "5"
-- name: READINESS_TIMEOUT
-  description: readyness timeout
-  required: true
-  value: "5"
