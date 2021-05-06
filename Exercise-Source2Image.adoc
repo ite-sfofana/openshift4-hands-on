@@ -1,4 +1,4 @@
-In this exercise we will learn how to build image from source code.
+== In this exercise we will learn how to build image from source code.
 
 The backend service that you will be deploying in this section is called nationalparks-katacoda
 
