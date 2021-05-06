@@ -3,5 +3,8 @@ In this exercise we will learn how to build image from source code.
 The backend service that you will be deploying in this section is called nationalparks-katacoda
 
 === Step 1: Switch to developer view and click "Add+"
-=== Step 2: Select from Catalog 
-=== Step 3: Put the https://github.com/openshift-roadshow/nationalparks-katacoda
+=== Step 2: Select From Catalog
+=== Step 3: If the result list is empty, uncheck the 'Operator Backed' and check the 'Builder Image'
+=== Step 4: Now select 'Python Builder Image' and afterwards 'Create Application'
+=== Step 5: Enter in the input field 'Git Repo URL'  --> https://github.com/openshift-roadshow/nationalparks-katacoda
+=== Step 6: And finally click 'Create'
